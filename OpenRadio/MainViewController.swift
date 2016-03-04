@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AFSoundManager
 
 class MainViewController: UIViewController {
     
@@ -24,6 +25,10 @@ class MainViewController: UIViewController {
     var roaDesuka:Bool = false
     var repDesuka:Bool = false
     
+    var mPlayer:AFSoundQueue!
+    var songKbsLabel:String!
+    var albumTitle:String!
+    
     //MARK: - 全局(Global)
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,22 +44,7 @@ class MainViewController: UIViewController {
         
         self.roaDesuka = true
         
-        HttpReq().getSong(0) { (music) -> Void in
-            if music.songUrl != nil {
-                self.titleLabel.text  = NSString(string: music.songTitle) as String
-                self.artistLabel.text = NSString(string: music.artist) as String
-                
-                self.changeImg(UIImage(data: NSData(contentsOfURL: NSURL(string: music.albumImg)!)!)!)
-                
-                self.albumImgView.resumeRoatating()
-                self.needleView.needleAntiWiseRoatating()
-                
-                self.pauseBtn.setImage(UIImage(named: "cm2_btn_pause"), forState: UIControlState.Normal)
-                self.pauseBtn.setImage(UIImage(named: "cm2_btn_pause_prs"), forState: UIControlState.Highlighted)
-             
-                MusicPlayModel().getMusic()
-            }
-        }
+        self.playMusic()
         backImageView.image = albumImgView.albumImg?.image
     }
 
@@ -85,15 +75,13 @@ extension MainViewController {
     func changeImg(img:UIImage) {
         albumImgView.albumImg?.image = img
         backImageView.image = albumImgView.albumImg?.image
-        
     }
-    
     
     //MARK: - 播放按钮控制(MusicControl)
     @IBAction func radioPlayOrStop(sender: AnyObject) {
         if self.roaDesuka {
             albumImgView.stopRoatating()
-            MusicPlayModel().mPlayer?.pause()
+            self.mPlayer.pause()
             self.roaDesuka = false
             
             pauseBtn.setImage(UIImage(named: "cm2_btn_play"), forState: UIControlState.Normal)
@@ -103,7 +91,7 @@ extension MainViewController {
             
         } else {
             albumImgView.resumeRoatating()
-            MusicPlayModel().mPlayer?.playCurrentItem()
+            self.mPlayer.playCurrentItem()
             self.roaDesuka = true
             
             pauseBtn.setImage(UIImage(named: "cm2_btn_pause"), forState: UIControlState.Normal)
@@ -130,8 +118,9 @@ extension MainViewController {
         }
     }
     
+    //MARK: - 特色键 - Oh！键(Special - Oh? Button)
     @IBAction func ohBtn(sender: AnyObject) {
-        let channelMenu = UIAlertController(title: "切换音乐来源", message: "显示可切换音乐来源完毕！", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let channelMenu = UIAlertController(title: "Oh? Menu Loaded~", message: "显示可切换音乐来源完毕！", preferredStyle: UIAlertControllerStyle.ActionSheet)
         let douBtn = UIAlertAction(title: "豆瓣", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in
             //MARK: - 豆瓣来源切换设置(DoubanSetting)
             _ = UIAlertView(title: "你知道嘛", message: "现在这个按钮，还有左下角右下角的按钮，都是没用的呢", delegate: self, cancelButtonTitle: "没用你放出来干嘛呢！").show()
@@ -145,10 +134,17 @@ extension MainViewController {
             //MARK: - 回声来源切换设置(EchoSetting)
             _ = UIAlertView(title: "你知道嘛", message: "现在这个按钮，还有左下角右下角的按钮，都是没用的呢", delegate: self, cancelButtonTitle: "没用你放出来干嘛呢！").show()
         }
-        let cancel = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        let musicInfo = UIAlertAction(title: "我想知道我在听什么！", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            let alert = UIAlertController(title: "♪(^∇^*)Tell you ~", message: "人家叫做：《\(self.titleLabel.text!)》\n收录在《\(self.albumTitle)》呢！~\n是“\(self.artistLabel.text!)”唱给你听的呢~\n\nsong的比特率是：\(self.songKbsLabel!)kbps!\n\n祝你听得开心♪(^∇^*)\n", preferredStyle: UIAlertControllerStyle.Alert)
+            let cennel = UIAlertAction(title: "(⊙o⊙)哦~", style: UIAlertActionStyle.Cancel, handler: nil)
+            alert.addAction(cennel)
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        let cancel = UIAlertAction(title: "只是想看看这里有什嘛…", style: UIAlertActionStyle.Cancel, handler: nil)
         channelMenu.addAction(douBtn)
         channelMenu.addAction(luoBtn)
         channelMenu.addAction(huiBtn)
+        channelMenu.addAction(musicInfo)
         channelMenu.addAction(cancel)
         self.presentViewController(channelMenu, animated: true, completion: nil)
         
@@ -158,7 +154,5 @@ extension MainViewController {
             popover?.sourceRect = sender.bounds
             popover?.permittedArrowDirections = UIPopoverArrowDirection.Any
         }
-        
     }
 }
-

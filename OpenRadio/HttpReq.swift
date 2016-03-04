@@ -43,14 +43,15 @@ class Music:NSObject {
     var songUrl:String!
     var artist:String!
     var albumTitle:String!
-    var song_kbps:String!
+    var songKbps:String!
     
-    init(albumImg:String, songTitle:String, songUrl:String, artist:String, albumTitle:String) {
+    init(albumImg:String, songTitle:String, songUrl:String, artist:String, albumTitle:String, songKbps:String) {
         self.albumImg   = albumImg
         self.songTitle  = songTitle
         self.songUrl    = songUrl
         self.artist     = artist
         self.albumTitle = albumTitle
+        self.songKbps  = songKbps
     }
 }
 
@@ -103,8 +104,9 @@ class HttpReq {
                     let songTitle   = s_json["title"].string
                     let songUrl     = s_json["url"].string
                     let artist      = s_json["artist"].string
+                    let songKbps    = s_json["kbps"].string
                     
-                    let songInfo = Music(albumImg: albumImg!, songTitle: songTitle!, songUrl: songUrl!, artist: artist!, albumTitle: albumTitle!)
+                    let songInfo = Music(albumImg: albumImg!, songTitle: songTitle!, songUrl: songUrl!, artist: artist!, albumTitle: albumTitle!, songKbps: songKbps!)
                     completionHandler(music:songInfo)
                 }
                 

@@ -38,7 +38,7 @@ class AlbumImageView: UIImageView {
         
         roaAni.fromValue = 0.0
         roaAni.toValue = M_PI * 2
-        roaAni.duration = 30
+        roaAni.duration = 50
         roaAni.repeatCount = MAXFLOAT
         
         self.layer.addAnimation(roaAni, forKey: nil)

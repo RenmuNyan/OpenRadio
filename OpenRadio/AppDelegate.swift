@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainViewController") as! MainViewController
         let playList = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RightViewController") as! RightViewController
         
-//        playList.delegate = mainView
+        playList.delegate = mainView
         
         drawerViewController.centerViewController = mainView
         drawerViewController.rightViewController  = playList

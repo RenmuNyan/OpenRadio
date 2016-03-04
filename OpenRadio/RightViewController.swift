@@ -9,13 +9,13 @@
 import UIKit
 
 protocol ChannelSelect {
-    func selectChan(channel_id: Int)
+    func selectChannel(id:Int)
 }
 
 class RightViewController: UITableViewController {
     
     //MARK: - 定义、初始化(Init, Prepare)
-    var chanDelegate:ChannelSelect?
+    var delegate:ChannelSelect?
     var channelList:[Channel] = [Channel]() {
         didSet{
             self.tableView.reloadData()
@@ -30,7 +30,6 @@ class RightViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
         
         HttpReq().getChan { (channel) -> Void in
             LoadAnimationView().loadingAni()
@@ -71,7 +70,7 @@ class RightViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.chanDelegate?.selectChan(self.channelList[indexPath.row].channel_id)
+        self.delegate?.selectChannel(self.channelList[indexPath.row].channel_id)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         debugPrint(self.channelList[indexPath.row].channel_id)
     }
