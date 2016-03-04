@@ -21,7 +21,10 @@ class LoadAnimationView: UIView {
         KVNProgress.showErrorWithStatus("请检查网络！╭(°A°`)╮")
     }
     func musicErrAni() {
-        KVNProgress.showErrorWithStatus("获取不到歌曲！")
+        KVNProgress.showErrorWithStatus("获取不到歌曲！╭(°A°`)╮")
+    }
+    func stopAni() {
+        KVNProgress.dismiss()
     }
     
 }

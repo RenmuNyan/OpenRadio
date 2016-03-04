@@ -34,7 +34,7 @@ class NeedleView: UIImageView {
     func needleWiseRoatating() {
         UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
             
-                self.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI / 6))  //逆时针，移开唱针
+                self.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI / 6))  //逆时针，让唱针走开！
             
             }) { (finished) -> Void in
         }

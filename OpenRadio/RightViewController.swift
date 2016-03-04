@@ -52,6 +52,7 @@ class RightViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
+        //TODO: 有时间把列表分类一下~
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,7 +73,7 @@ class RightViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.chanDelegate?.selectChan(self.channelList[indexPath.row].channel_id)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        debugPrint(indexPath.row)
+        debugPrint(self.channelList[indexPath.row].channel_id)
     }
 
     /*

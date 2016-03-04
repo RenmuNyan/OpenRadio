@@ -48,7 +48,7 @@ class Music:NSObject {
     init(albumImg:String, songTitle:String, songUrl:String, artist:String, albumTitle:String) {
         self.albumImg   = albumImg
         self.songTitle  = songTitle
-        self.songUrl    = songTitle
+        self.songUrl    = songUrl
         self.artist     = artist
         self.albumTitle = albumTitle
     }

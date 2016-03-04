@@ -24,7 +24,6 @@ class MainViewController: UIViewController {
     var roaDesuka:Bool = false
     var repDesuka:Bool = false
     
-    
     //MARK: - 全局(Global)
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +51,7 @@ class MainViewController: UIViewController {
                 
                 self.pauseBtn.setImage(UIImage(named: "cm2_btn_pause"), forState: UIControlState.Normal)
                 self.pauseBtn.setImage(UIImage(named: "cm2_btn_pause_prs"), forState: UIControlState.Highlighted)
-                
+             
                 MusicPlayModel().getMusic()
             }
         }
@@ -70,10 +69,11 @@ extension MainViewController {
     @IBAction func getListBtn(sender: AnyObject) {
         
         (UIApplication.sharedApplication().delegate as! AppDelegate).drawerViewController.toggleDrawer(.Right, animated: true) { (finished) -> Void in
-            //To ...
+            //一个向左推开的动画~(Push To Left)
         }
     }
     
+    //MARK: - 手势设置 - 来源于 KGFloatingDrawer (GestureSetting)
     func toggleRightDrawer(sender: UISwipeGestureRecognizer) {
         if(sender.direction == .Left){
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -93,6 +93,7 @@ extension MainViewController {
     @IBAction func radioPlayOrStop(sender: AnyObject) {
         if self.roaDesuka {
             albumImgView.stopRoatating()
+            MusicPlayModel().mPlayer?.pause()
             self.roaDesuka = false
             
             pauseBtn.setImage(UIImage(named: "cm2_btn_play"), forState: UIControlState.Normal)
@@ -102,6 +103,7 @@ extension MainViewController {
             
         } else {
             albumImgView.resumeRoatating()
+            MusicPlayModel().mPlayer?.playCurrentItem()
             self.roaDesuka = true
             
             pauseBtn.setImage(UIImage(named: "cm2_btn_pause"), forState: UIControlState.Normal)
